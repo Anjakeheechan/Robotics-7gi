@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/251216/UIStudy.unity
     guid: 709b5c1cce5c92341bad20f9cd8f7de1
   - enabled: 1
-    path: Assets/Scenes 1/CubeMove.unity
+    path: Assets/Scenes/CubeMove.unity
     guid: 8879561d85e02fe48832a47a892208a6
   - enabled: 1
     path: Assets/251216/Progress.unity

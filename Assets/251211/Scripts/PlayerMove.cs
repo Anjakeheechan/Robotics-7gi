@@ -41,7 +41,7 @@ namespace unity_251211
             float horizontalInput = Input.GetAxis("Horizontal"); // 왼쪽, 오른쪽, A, D
             float verticalInput = Input.GetAxis("Vertical");     // 위, 아래, W, S
 
-            print($"h: {horizontalInput}, v: {verticalInput}");
+            //print($"h: {horizontalInput}, v: {verticalInput}");
 
             // 기존: 절대좌표, 월드좌표 Vector3.forward
             // Vector3 dir = new Vector3(horizontalInput, 0, verticalInput);
