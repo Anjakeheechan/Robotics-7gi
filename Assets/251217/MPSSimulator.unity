@@ -2022,6 +2022,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MxComponent
   isConnected: 0
   interval: 1
+  plcXData: 00000000
 --- !u!4 &345326997
 Transform:
   m_ObjectHideFlags: 0
@@ -4933,6 +4934,9 @@ MonoBehaviour:
   towerLamp: {fileID: 1835936132}
   conveyor: {fileID: 1479352561}
   loader: {fileID: 1335112769}
+  loaderSensor: {fileID: 251664343}
+  metalSensor: {fileID: 884873060}
+  proximitySensor: {fileID: 1345325074}
   "\uC2DC\uC791\uBC84\uD2BC": {fileID: 593824340}
   "\uC2A4\uD0D1\uBC84\uD2BC": {fileID: 86454716}
   "redLamp\uBC84\uD2BC": {fileID: 444056072}
@@ -12465,7 +12469,7 @@ GameObject:
   - component: {fileID: 1595938401}
   - component: {fileID: 1595938400}
   m_Layer: 0
-  m_Name: Sensor
+  m_Name: LoaderSensor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
