@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\교수\\Documents\\7기\\TCPServerEx\\TCPServerEx\\TCPServerEx.csproj",
+      "projectUniqueName": "C:\\Projects\\MyFirstUnityProject\\TCPServerEx\\TCPServerEx\\TCPServerEx.csproj",
       "projectName": "TCPServerEx",
-      "projectPath": "C:\\Users\\교수\\Documents\\7기\\TCPServerEx\\TCPServerEx\\TCPServerEx.csproj",
+      "projectPath": "C:\\Projects\\MyFirstUnityProject\\TCPServerEx\\TCPServerEx\\TCPServerEx.csproj",
       "packagesPath": "C:\\Users\\교수\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\교수\\Documents\\7기\\TCPServerEx\\TCPServerEx\\obj\\",
+      "outputPath": "C:\\Projects\\MyFirstUnityProject\\TCPServerEx\\TCPServerEx\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
