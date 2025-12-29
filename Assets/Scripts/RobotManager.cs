@@ -57,11 +57,14 @@ public class RobotManager : MonoBehaviour
     private int zRot;
     private int stepCnt;
     private Vector3 originPos;
+    private Vector3 curEulerAngles;
 
     private void Start()
     {
         speedInput.text = "1";
         intervalInput.text = "1";
+
+        curEulerAngles = robot1.ik.localRotation.eulerAngles;
     }
 
     /// <summary>
@@ -204,6 +207,7 @@ public class RobotManager : MonoBehaviour
         robot1.ik.localPosition += new Vector3(xPos, yPos, zPos) * multiplier;
     }
 
+    
     private void UpdateRotation()
     {
         if (isXPlusRotOn) xRot++;
@@ -218,11 +222,21 @@ public class RobotManager : MonoBehaviour
         else if (isZMinusRotOn) zRot--;
         else zRot = 0;
 
-        xRotInput.text = robot1.ik.localRotation.x.ToString("0.00");
-        yRotInput.text = robot1.ik.localRotation.y.ToString("0.00");
-        zRotInput.text = robot1.ik.localRotation.z.ToString("0.00");
+        // curEulerAngles에서 값을 직접 관리
+        curEulerAngles.x += xRot * multiplier;
+        curEulerAngles.y += yRot * multiplier;
+        curEulerAngles.z += zRot * multiplier;
 
-        robot1.ik.localRotation *= Quaternion.Euler(xRot * multiplier, yRot * multiplier, zRot * multiplier);
+        // UI에 360도 대신 -1도 등으로 표시
+        float displayX = curEulerAngles.x > 180 ? curEulerAngles.x - 360 : curEulerAngles.x;
+        float displayY = curEulerAngles.y > 180 ? curEulerAngles.y - 360 : curEulerAngles.y;
+        float displayZ = curEulerAngles.z > 180 ? curEulerAngles.z - 360 : curEulerAngles.z;
+
+        xRotInput.text = curEulerAngles.x.ToString("0.00");
+        yRotInput.text = curEulerAngles.y.ToString("0.00");
+        zRotInput.text = curEulerAngles.z.ToString("0.00");
+
+        robot1.ik.localRotation = Quaternion.Euler(curEulerAngles);
     }
 
     public void OnXPlusBtnDownEvent()
