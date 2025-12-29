@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -55,6 +56,7 @@ public class RobotManager : MonoBehaviour
     private int yRot;
     private int zRot;
     private int stepCnt;
+    private Vector3 originPos;
 
     private void Start()
     {
@@ -102,9 +104,42 @@ public class RobotManager : MonoBehaviour
         Debug.Log("스탭이 초기화 되었습니다.");
     }
 
+    /// <summary>
+    /// 로봇이 각 스탭의정보를 읽고 스탭 순서대로 움직인다.
+    /// </summary>
     public void OnStartBtnClkEvent()
     {
+        isMoving = true;
 
+        
+    }
+
+    IEnumerator CoStartSequence()
+    {
+        // TODO: for문으로 교체 후 step position/rotation 이동
+        foreach (Step step in steps)
+        {
+            yield return CoMove(originPos, step.position, step.interval);
+        }
+
+        isMoving = false;
+    }
+
+    IEnumerator CoMove(Vector3 from, Vector3 to, float t)
+    {
+        float curTime = 0;
+
+        while(true)
+        {
+            curTime += Time.deltaTime;
+
+            if (curTime > t)
+                break;
+
+            robot1.ik.localPosition = Vector3.Lerp(from, to, curTime / t);
+
+            yield return null;
+        }
     }
 
     /// <summary>
