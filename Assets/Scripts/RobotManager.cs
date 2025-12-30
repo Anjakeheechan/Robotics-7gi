@@ -64,6 +64,7 @@ public class RobotManager : MonoBehaviour
         speedInput.text = "1";
         intervalInput.text = "1";
 
+        originPos = robot1.ik.transform.localPosition;
         curEulerAngles = robot1.ik.localRotation.eulerAngles;
     }
 
@@ -114,18 +115,53 @@ public class RobotManager : MonoBehaviour
     {
         isMoving = true;
 
-        
+        StartCoroutine(CoStartSequence());
     }
 
+    /// <summary>
+    /// 다른 포지션에 있을 경우, 처음 위치로 이동 후 스탭 이동 시작
+    /// </summary>
+    /// <returns></returns>
     IEnumerator CoStartSequence()
     {
-        // TODO: for문으로 교체 후 step position/rotation 이동
-        foreach (Step step in steps)
+        // 1. 오리진으로 복귀
+        Vector3 curPos = robot1.ik.transform.localPosition;
+        yield return CoMove(curPos, originPos, 1);
+
+        // 2. 첫 포지션으로 이동
+        yield return CoMove(originPos, steps[0].position, steps[0].interval);
+
+        // 3. steps리스트를 순회하며 position이동
+        for (int i = 0; i < steps.Count; i++)
         {
-            yield return CoMove(originPos, step.position, step.interval);
+            if ((i + 1) == steps.Count)
+                break;
+
+            yield return CoMove(steps[i].position, steps[i+1].position,
+                steps[i].interval);
         }
 
         isMoving = false;
+    }
+
+    IEnumerator CoCycleSequence()
+    {
+        // 1. 오리진으로 복귀
+        Vector3 curPos = robot1.ik.transform.localPosition;
+        yield return CoMove(curPos, originPos, 1);
+
+        // 2. 첫 포지션으로 이동
+        yield return CoMove(originPos, steps[0].position, steps[0].interval);
+
+        // 3. steps리스트를 순회하며 position이동
+        for (int i = 0; i < steps.Count; i++)
+        {
+            if ((i + 1) == steps.Count)
+                break;
+
+            yield return CoMove(steps[i].position, steps[i + 1].position,
+                steps[i].interval);
+        }
     }
 
     IEnumerator CoMove(Vector3 from, Vector3 to, float t)
@@ -146,35 +182,26 @@ public class RobotManager : MonoBehaviour
     }
 
     /// <summary>
-    /// SetOrigin 버튼 클릭시 원점으로 복귀
-    /// </summary>
-    public void SetOrigin()
-    {
-
-    }
-
-    /// <summary>
     /// 로봇의 Cycle 실행
     /// </summary>
-    public void Cycle()
+    public void OnCycleBtnClkEvent()
     {
+        isMoving = true;
 
+        StartCoroutine(CoCycle());
     }
 
-    /// <summary>
-    /// 로봇의 Sigle Cycle을 실행
-    /// </summary>
-    public void SigleCycle()
+    public void OnStopBtnClkEvent()
     {
-
+        isMoving = false;
     }
 
-    /// <summary>
-    /// 로봇을 현재 위치에서 작동 정지
-    /// </summary>
-    public void Stop()
+    IEnumerator CoCycle()
     {
-        
+        while (isMoving)
+        {
+            yield return CoCycleSequence();
+        }
     }
 
     private void Update()
@@ -207,7 +234,6 @@ public class RobotManager : MonoBehaviour
         robot1.ik.localPosition += new Vector3(xPos, yPos, zPos) * multiplier;
     }
 
-    
     private void UpdateRotation()
     {
         if (isXPlusRotOn) xRot++;

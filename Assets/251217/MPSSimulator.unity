@@ -150,13 +150,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   robot1: {fileID: 785163740}
   steps: []
-  multiplier: 0.01
+  multiplier: 0.001
+  isMoving: 0
   xPosInput: {fileID: 1503836610}
   yPosInput: {fileID: 1514961740}
   zPosInput: {fileID: 380716800}
   xRotInput: {fileID: 1311618783}
   yRotInput: {fileID: 1250750513}
   zRotInput: {fileID: 1737317131}
+  suctionToggle: {fileID: 1713845640}
+  speedInput: {fileID: 2109012028}
+  intervalInput: {fileID: 768714986}
 --- !u!4 &1339084
 Transform:
   m_ObjectHideFlags: 0
@@ -24493,7 +24497,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1930973471}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1339083}
+        m_TargetAssemblyTypeName: RobotManager, Assembly-CSharp
+        m_MethodName: OnTeachBtnClkEvent
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1930973471
 MonoBehaviour:
   m_ObjectHideFlags: 0
