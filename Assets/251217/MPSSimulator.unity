@@ -161,6 +161,9 @@ MonoBehaviour:
   suctionToggle: {fileID: 1713845640}
   speedInput: {fileID: 2109012028}
   intervalInput: {fileID: 768714986}
+  signleSignal: 0
+  cycleSignal: 0
+  stopSignal: 0
 --- !u!4 &1339084
 Transform:
   m_ObjectHideFlags: 0
@@ -1325,7 +1328,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 121997894}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1339083}
+        m_TargetAssemblyTypeName: RobotManager, Assembly-CSharp
+        m_MethodName: OnStartBtnClkEvent
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &121997894
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7827,6 +7842,7 @@ MonoBehaviour:
   loaderSensor: {fileID: 251664343}
   metalSensor: {fileID: 884873060}
   proximitySensor: {fileID: 1345325074}
+  robot1: {fileID: 0}
   "\uC2DC\uC791\uBC84\uD2BC": {fileID: 593824340}
   "\uC2A4\uD0D1\uBC84\uD2BC": {fileID: 86454716}
   "\uAE34\uAE09\uC815\uC9C0\uBC84\uD2BC": {fileID: 1708751097}
@@ -8320,7 +8336,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 823484867}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1339083}
+        m_TargetAssemblyTypeName: RobotManager, Assembly-CSharp
+        m_MethodName: OnCycleBtnClkEvent
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &823484867
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13247,7 +13275,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1102057475}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1339083}
+        m_TargetAssemblyTypeName: RobotManager, Assembly-CSharp
+        m_MethodName: OnStopBtnClkEvent
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1102057475
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25054,75 +25094,79 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 328345494952646264, guid: e036f4e162a86bb4ab1e84c5ee83f098, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.47493646
+      value: 0.6722957
       objectReference: {fileID: 0}
     - target: {fileID: 328345494952646264, guid: e036f4e162a86bb4ab1e84c5ee83f098, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.8800201
+      value: 0.7402827
       objectReference: {fileID: 0}
     - target: {fileID: 499867993448733861, guid: e036f4e162a86bb4ab1e84c5ee83f098, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.49839902
+      value: 0.5007222
       objectReference: {fileID: 0}
     - target: {fileID: 499867993448733861, guid: e036f4e162a86bb4ab1e84c5ee83f098, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.49839902
+      value: -0.5007222
       objectReference: {fileID: 0}
     - target: {fileID: 499867993448733861, guid: e036f4e162a86bb4ab1e84c5ee83f098, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.5015959
+      value: -0.49927676
       objectReference: {fileID: 0}
     - target: {fileID: 499867993448733861, guid: e036f4e162a86bb4ab1e84c5ee83f098, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.5015959
+      value: -0.49927676
       objectReference: {fileID: 0}
     - target: {fileID: 730250226970558523, guid: e036f4e162a86bb4ab1e84c5ee83f098, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.4841589
+      value: 0.38445985
       objectReference: {fileID: 0}
     - target: {fileID: 730250226970558523, guid: e036f4e162a86bb4ab1e84c5ee83f098, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.4841589
+      value: -0.38445985
       objectReference: {fileID: 0}
     - target: {fileID: 730250226970558523, guid: e036f4e162a86bb4ab1e84c5ee83f098, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.51535445
+      value: 0.59345657
       objectReference: {fileID: 0}
     - target: {fileID: 730250226970558523, guid: e036f4e162a86bb4ab1e84c5ee83f098, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.51535445
+      value: 0.59345657
       objectReference: {fileID: 0}
     - target: {fileID: 748225704435883801, guid: e036f4e162a86bb4ab1e84c5ee83f098, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.88935953
+      value: 0.85859287
       objectReference: {fileID: 0}
     - target: {fileID: 748225704435883801, guid: e036f4e162a86bb4ab1e84c5ee83f098, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.4572085
+      value: 0.51265806
       objectReference: {fileID: 0}
     - target: {fileID: 1054881359302798165, guid: e036f4e162a86bb4ab1e84c5ee83f098, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.0469
+      value: -0.251
       objectReference: {fileID: 0}
     - target: {fileID: 1054881359302798165, guid: e036f4e162a86bb4ab1e84c5ee83f098, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.466
+      value: 0.599
+      objectReference: {fileID: 0}
+    - target: {fileID: 1054881359302798165, guid: e036f4e162a86bb4ab1e84c5ee83f098, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.32
       objectReference: {fileID: 0}
     - target: {fileID: 3560165880605008941, guid: e036f4e162a86bb4ab1e84c5ee83f098, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.70024294
+      value: 0.70573133
       objectReference: {fileID: 0}
     - target: {fileID: 3560165880605008941, guid: e036f4e162a86bb4ab1e84c5ee83f098, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.70024294
+      value: 0.70573133
       objectReference: {fileID: 0}
     - target: {fileID: 3560165880605008941, guid: e036f4e162a86bb4ab1e84c5ee83f098, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.098284364
+      value: -0.04408288
       objectReference: {fileID: 0}
     - target: {fileID: 3560165880605008941, guid: e036f4e162a86bb4ab1e84c5ee83f098, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.098284364
+      value: 0.04408288
       objectReference: {fileID: 0}
     - target: {fileID: 8199117449119913086, guid: e036f4e162a86bb4ab1e84c5ee83f098, type: 3}
       propertyPath: m_LocalPosition.x
@@ -25166,11 +25210,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8486549335334716050, guid: e036f4e162a86bb4ab1e84c5ee83f098, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7985488
+      value: 0.66163594
       objectReference: {fileID: 0}
     - target: {fileID: 8486549335334716050, guid: e036f4e162a86bb4ab1e84c5ee83f098, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.6019301
+      value: 0.74982524
       objectReference: {fileID: 0}
     - target: {fileID: 8731714578828661948, guid: e036f4e162a86bb4ab1e84c5ee83f098, type: 3}
       propertyPath: m_Name

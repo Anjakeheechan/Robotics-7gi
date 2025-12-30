@@ -12,6 +12,7 @@ using UnityEngine.UI;
 /// </summary>
 public class RobotManager : MonoBehaviour
 {
+    // Template: new 키워드를 만나면 객체(Object)
     [Serializable]
     public struct Step
     {
@@ -58,6 +59,9 @@ public class RobotManager : MonoBehaviour
     private int stepCnt;
     private Vector3 originPos;
     private Vector3 curEulerAngles;
+    public bool signleSignal;
+    public bool cycleSignal;
+    public bool stopSignal;
 
     private void Start()
     {
@@ -206,6 +210,20 @@ public class RobotManager : MonoBehaviour
 
     private void Update()
     {
+        if(signleSignal && !isMoving)
+        {
+            StartCoroutine(CoStartSequence());
+        }
+        else if(cycleSignal && !isMoving)
+        {
+            StartCoroutine(CoStartSequence());
+        }
+        else if(stopSignal)
+        {
+            isMoving = false;
+        }
+
+
         if (isMoving) return;
 
         UpdatePosition();

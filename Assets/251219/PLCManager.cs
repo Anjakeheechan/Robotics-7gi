@@ -28,6 +28,7 @@ public class PLCManager : MonoBehaviour
     [SerializeField] MPSSimulator.Sensor loaderSensor;
     [SerializeField] MPSSimulator.Sensor metalSensor;
     [SerializeField] MPSSimulator.Sensor proximitySensor;
+    [SerializeField] RobotManager robot1;
 
     [Header("UI 버튼 세팅")]
     [SerializeField] Button 시작버튼;
@@ -88,6 +89,11 @@ public class PLCManager : MonoBehaviour
         // 컨베이어
         conveyor.cwSignal        = MxComponent.instance.plcData[0][9];
         conveyor.ccwSignal       = MxComponent.instance.plcData[0][10];    // 0A
+
+        // robot1
+        robot1.signleSignal = MxComponent.instance.plcData[0][11];
+        robot1.cycleSignal  = MxComponent.instance.plcData[0][12];
+        robot1.stopSignal   = MxComponent.instance.plcData[0][13];
 
         // 가상의 센서정보의 순서정의 실린더LS0 -> X00, 실린더1LS1 -> X01
         //  X0 X1 X2 ....
