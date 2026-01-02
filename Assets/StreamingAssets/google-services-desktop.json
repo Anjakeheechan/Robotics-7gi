@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "819610668930",
+    "firebase_url": "https://mpssim-27a28-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "mpssim-27a28",
+    "storage_bucket": "mpssim-27a28.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:819610668930:android:ae03c10b4e762e61ff899b",
+        "android_client_info": {
+          "package_name": "com.DefaultCompany.MyFirstUnityProject"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDC3DLvJRTXOHV-uu4STX7Q1_1-j7nQyU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
