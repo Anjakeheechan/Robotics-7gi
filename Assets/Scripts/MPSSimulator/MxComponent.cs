@@ -1,4 +1,4 @@
-﻿#define MASTER // MASTER / SLAVE
+﻿#define SLAVE // MASTER / SLAVE
 
 using UnityEngine;
 using ActUtlType64Lib;

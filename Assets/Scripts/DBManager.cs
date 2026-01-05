@@ -1,4 +1,4 @@
-﻿#define MASTER // MASTER / SLAVE
+﻿#define SLAVE // MASTER / SLAVE
 
 using Firebase;
 using Firebase.Database;
