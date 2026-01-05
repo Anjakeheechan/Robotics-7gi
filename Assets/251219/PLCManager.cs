@@ -132,32 +132,36 @@ public class PLCManager : MonoBehaviour
 
         MxComponent.instance.plcXData[0] = xData;
 #elif SLAVE // DB의 정보를 받아와서 설비에 적용해준다. -> output(y)만 받아서 적용
-            // output -> plcYData[,]
+        // output -> plcYData[,]
+
+        if (!MxComponent.instance.isConnected)
+            return;
+
         // cylinder1은 양솔                            //[블록번호][디바이스 번호]
-        cylinder1.forwardSignal  = MxComponent.instance.plcYData[0][0];
-        cylinder1.backwardSignal = MxComponent.instance.plcYData[0][1];
+        //cylinder1.forwardSignal  = MxComponent.instance.plcYData[0][0];
+        //cylinder1.backwardSignal = MxComponent.instance.plcYData[0][1];
 
-        // 나머지는 단동형
-        cylinder2.forwardSignal  = MxComponent.instance.plcYData[0][2];
-        cylinder3.forwardSignal  = MxComponent.instance.plcYData[0][3];
-        cylinder4.forwardSignal  = MxComponent.instance.plcYData[0][4];
+        //// 나머지는 단동형
+        //cylinder2.forwardSignal  = MxComponent.instance.plcYData[0][2];
+        //cylinder3.forwardSignal  = MxComponent.instance.plcYData[0][3];
+        //cylinder4.forwardSignal  = MxComponent.instance.plcYData[0][4];
 
-        // 타워램프
-        towerLamp.redLamSignal   = MxComponent.instance.plcYData[0][5];
-        towerLamp.yellowLamSignal= MxComponent.instance.plcYData[0][6];
-        towerLamp.greenLamSignal = MxComponent.instance.plcYData[0][7];
+        //// 타워램프
+        //towerLamp.redLamSignal   = MxComponent.instance.plcYData[0][5];
+        //towerLamp.yellowLamSignal= MxComponent.instance.plcYData[0][6];
+        //towerLamp.greenLamSignal = MxComponent.instance.plcYData[0][7];
 
-        // Loader
-        loader.loadSignal        = MxComponent.instance.plcYData[0][8];
+        //// Loader
+        //loader.loadSignal        = MxComponent.instance.plcYData[0][8];
 
-        // 컨베이어
-        conveyor.cwSignal        = MxComponent.instance.plcYData[0][9];
-        conveyor.ccwSignal       = MxComponent.instance.plcYData[0][10];    // 0A
+        //// 컨베이어
+        //conveyor.cwSignal        = MxComponent.instance.plcYData[0][9];
+        //conveyor.ccwSignal       = MxComponent.instance.plcYData[0][10];    // 0A
 
-        // robot1
-        robot1.signleSignal = MxComponent.instance.plcYData[0][11];
-        robot1.cycleSignal  = MxComponent.instance.plcYData[0][12];
-        robot1.stopSignal   = MxComponent.instance.plcYData[0][13];
+        //// robot1
+        //robot1.signleSignal = MxComponent.instance.plcYData[0][11];
+        //robot1.cycleSignal  = MxComponent.instance.plcYData[0][12];
+        //robot1.stopSignal   = MxComponent.instance.plcYData[0][13];
 #endif
     }
 

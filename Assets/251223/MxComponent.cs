@@ -67,12 +67,24 @@ public class MxComponent : MonoBehaviour
 #if MASTER
         Task.Run(UpdateplcYDataAsync, cts.Token);
 #elif SLAVE
-        // output -> int[]  -> plcYData[,]
-        // "255,66,888" -> { 255, 66, 888 }
-        string[] strArr = output.Split(',');
-        int[] tempData = Array.ConvertAll(strArr, s => int.Parse(s.Trim()));
-        plcYData = ConvertDecimalToBinary(tempData); // 0000111111110010
+        StartCoroutine(UpdateplcYDataSlave());
 #endif
+    }
+
+    IEnumerator UpdateplcYDataSlave()
+    {
+        yield return new WaitUntil(() => isConnected == true);
+
+        while(isConnected)
+        {
+            // output -> int[]  -> plcYData[,]
+            // "255,66,888" -> { 255, 66, 888 }
+            string[] strArr = output.Split(',');
+            int[] tempData = Array.ConvertAll(strArr, s => int.Parse(s.Trim()));
+            plcYData = ConvertDecimalToBinary(tempData); // 0000111111110010
+
+            yield return new WaitForSeconds(interval);
+        }
     }
 
     /// <summary>

@@ -37,12 +37,30 @@ public class DBManager : MonoBehaviour
 
         while (MxComponent.instance.isConnected)
         {
+            dbRef.Child("isConnected").SetValueAsync(MxComponent.instance.isConnected);
+
             dbRef.Child("data").Child("input").SetValueAsync(MxComponent.instance.input);
             dbRef.Child("data").Child("output").SetValueAsync(MxComponent.instance.output);
 
             yield return new WaitForSeconds(interval);
         }
 #elif SLAVE
+
+        dbRef.Child("isConnected").GetValueAsync().ContinueWith(task =>
+        {
+            if (task.IsCompleted)
+            {
+                DataSnapshot d = task.Result;
+                string isConnectedStr = d.GetRawJsonValue();
+
+                bool isConverted = bool.TryParse(isConnectedStr, out MxComponent.instance.isConnected);
+                if (!isConverted)
+                    Debug.LogWarning("데이터 변환이 실패하였습니다. str -> bool");
+            }
+        });
+
+        yield return new WaitUntil(() => MxComponent.instance.isConnected == true);
+
         while(true)
         {
             dbRef.Child("data").Child("output").GetValueAsync().ContinueWith(task =>
