@@ -1,9 +1,10 @@
-﻿using MPSSimulator;
+﻿#define SLAVE // 전처리기: 프로그램이 컴파일 되기 전, 코드를 어떤
+// 코드로 실행할지 정의
+using MPSSimulator;
 using System;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.ProBuilder.Shapes;
 using UnityEngine.UI;
 
 /// <summary>
@@ -67,33 +68,35 @@ public class PLCManager : MonoBehaviour
 
     private void Update()
     {
+
+#if MASTER
         if (!MxComponent.instance.isConnected) return;
 
         // cylinder1은 양솔                            //[블록번호][디바이스 번호]
-        cylinder1.forwardSignal  = MxComponent.instance.plcData[0][0];
-        cylinder1.backwardSignal = MxComponent.instance.plcData[0][1];
+        cylinder1.forwardSignal  = MxComponent.instance.plcYData[0][0];
+        cylinder1.backwardSignal = MxComponent.instance.plcYData[0][1];
 
         // 나머지는 단동형
-        cylinder2.forwardSignal  = MxComponent.instance.plcData[0][2];
-        cylinder3.forwardSignal  = MxComponent.instance.plcData[0][3];
-        cylinder4.forwardSignal  = MxComponent.instance.plcData[0][4];
+        cylinder2.forwardSignal  = MxComponent.instance.plcYData[0][2];
+        cylinder3.forwardSignal  = MxComponent.instance.plcYData[0][3];
+        cylinder4.forwardSignal  = MxComponent.instance.plcYData[0][4];
 
         // 타워램프
-        towerLamp.redLamSignal   = MxComponent.instance.plcData[0][5];
-        towerLamp.yellowLamSignal= MxComponent.instance.plcData[0][6];
-        towerLamp.greenLamSignal = MxComponent.instance.plcData[0][7];
+        towerLamp.redLamSignal   = MxComponent.instance.plcYData[0][5];
+        towerLamp.yellowLamSignal= MxComponent.instance.plcYData[0][6];
+        towerLamp.greenLamSignal = MxComponent.instance.plcYData[0][7];
 
         // Loader
-        loader.loadSignal        = MxComponent.instance.plcData[0][8];
+        loader.loadSignal        = MxComponent.instance.plcYData[0][8];
 
         // 컨베이어
-        conveyor.cwSignal        = MxComponent.instance.plcData[0][9];
-        conveyor.ccwSignal       = MxComponent.instance.plcData[0][10];    // 0A
+        conveyor.cwSignal        = MxComponent.instance.plcYData[0][9];
+        conveyor.ccwSignal       = MxComponent.instance.plcYData[0][10];    // 0A
 
         // robot1
-        robot1.signleSignal = MxComponent.instance.plcData[0][11];
-        robot1.cycleSignal  = MxComponent.instance.plcData[0][12];
-        robot1.stopSignal   = MxComponent.instance.plcData[0][13];
+        robot1.signleSignal = MxComponent.instance.plcYData[0][11];
+        robot1.cycleSignal  = MxComponent.instance.plcYData[0][12];
+        robot1.stopSignal   = MxComponent.instance.plcYData[0][13];
 
         // 가상의 센서정보의 순서정의 실린더LS0 -> X00, 실린더1LS1 -> X01
         //  X0 X1 X2 ....
@@ -128,6 +131,34 @@ public class PLCManager : MonoBehaviour
         int xData = Convert.ToInt32(xDataStr, 2);            // 341
 
         MxComponent.instance.plcXData[0] = xData;
+#elif SLAVE // DB의 정보를 받아와서 설비에 적용해준다. -> output(y)만 받아서 적용
+            // output -> plcYData[,]
+        // cylinder1은 양솔                            //[블록번호][디바이스 번호]
+        cylinder1.forwardSignal  = MxComponent.instance.plcYData[0][0];
+        cylinder1.backwardSignal = MxComponent.instance.plcYData[0][1];
+
+        // 나머지는 단동형
+        cylinder2.forwardSignal  = MxComponent.instance.plcYData[0][2];
+        cylinder3.forwardSignal  = MxComponent.instance.plcYData[0][3];
+        cylinder4.forwardSignal  = MxComponent.instance.plcYData[0][4];
+
+        // 타워램프
+        towerLamp.redLamSignal   = MxComponent.instance.plcYData[0][5];
+        towerLamp.yellowLamSignal= MxComponent.instance.plcYData[0][6];
+        towerLamp.greenLamSignal = MxComponent.instance.plcYData[0][7];
+
+        // Loader
+        loader.loadSignal        = MxComponent.instance.plcYData[0][8];
+
+        // 컨베이어
+        conveyor.cwSignal        = MxComponent.instance.plcYData[0][9];
+        conveyor.ccwSignal       = MxComponent.instance.plcYData[0][10];    // 0A
+
+        // robot1
+        robot1.signleSignal = MxComponent.instance.plcYData[0][11];
+        robot1.cycleSignal  = MxComponent.instance.plcYData[0][12];
+        robot1.stopSignal   = MxComponent.instance.plcYData[0][13];
+#endif
     }
 
     private void OnDisconnectBtnClkEvent()

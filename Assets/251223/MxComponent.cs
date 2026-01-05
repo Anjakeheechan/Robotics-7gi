@@ -1,11 +1,12 @@
-﻿using UnityEngine;
+﻿#define SLAVE // MASTER, SLAVE
+
+using UnityEngine;
 using ActUtlType64Lib;
 using System.Collections;
 using System.Collections.Generic;
 using System;
 using System.Threading.Tasks;
 using System.Threading;
-using Unity.VisualScripting;
 
 /// <summary>
 /// MxComponent 객체를 사용하여 PLC와 통신한다
@@ -21,8 +22,10 @@ public class MxComponent : MonoBehaviour
     public bool isConnected = false;
     public float interval = 1;
     //bool[,] data = new bool[3,16];
-    public List<bool[]> plcData = new List<bool[]>(); // 공용 데이터 컨테이너
+    public List<bool[]> plcYData = new List<bool[]>(); // 공용 데이터 컨테이너
+    public string output;
     public int[] plcXData = new int[1];               // PLCManager에서 전달받은 정보
+    public string input;
     CancellationTokenSource cts = new CancellationTokenSource();    // 스레드 관리자!
 
     private void Awake()
@@ -49,7 +52,7 @@ public class MxComponent : MonoBehaviour
         {
             isConnected = true;
 
-            StartCoroutine(UpdatePLCData());
+            StartCoroutine(UpdateplcYData());
         }
 
         return iRet;
@@ -61,7 +64,15 @@ public class MxComponent : MonoBehaviour
     /// </summary>
     public void OpenAsync()
     {
-        Task.Run(UpdatePLCDataAsync, cts.Token);
+#if MASTER
+        Task.Run(UpdateplcYDataAsync, cts.Token);
+#elif SLAVE
+        // output -> int[]  -> plcYData[,]
+        // "255,66,888" -> { 255, 66, 888 }
+        string[] strArr = output.Split(',');
+        int[] tempData = Array.ConvertAll(strArr, s => int.Parse(s.Trim()));
+        plcYData = ConvertDecimalToBinary(tempData); // 0000111111110010
+#endif
     }
 
     /// <summary>
@@ -92,7 +103,7 @@ public class MxComponent : MonoBehaviour
     /// 유니티 Main 스레드에서 작동시키는 방법 -> Blocking 문제 발생 -> 40~80 FPS 
     /// </summary>
     /// <returns></returns>
-    public IEnumerator UpdatePLCData()
+    public IEnumerator UpdateplcYData()
     {
         while(isConnected)
         {
@@ -105,7 +116,7 @@ public class MxComponent : MonoBehaviour
         }
     }
 
-    async void UpdatePLCDataAsync()
+    async void UpdateplcYDataAsync()
     {
         // 단일스레드원칙(STA): 각 스레드에서 객체를 따로 관리할 수 있도록
         mxComponent = new ActUtlType64();
@@ -167,7 +178,7 @@ public class MxComponent : MonoBehaviour
                 // 데이터 변환(가상의 설비들이 잘 사용할 수 있도록 하기 위해)
                 print(data[0]);
                 // 1023 -> { true, false, true, false,  true, false, true, false, true, false, true, false,  true, false, true, false }
-                plcData = ConvertDecimalToBinary(data);
+                plcYData = ConvertDecimalToBinary(data);
             }
             else
             {
@@ -186,13 +197,14 @@ public class MxComponent : MonoBehaviour
         {
             int[] data = new int[blockNum];
             int iRet = _mxComp.ReadDeviceBlock(startDevice, blockNum, out data[0]);
+            output = String.Join(",", data); // { 355, 22, 100 } -> "355,22,100"
 
             if (iRet == 0)
             {
                 // 데이터 변환(가상의 설비들이 잘 사용할 수 있도록 하기 위해)
                 print(data[0]);
                 // 1023 -> { true, false, true, false,  true, false, true, false, true, false, true, false,  true, false, true, false }
-                plcData = ConvertDecimalToBinary(data);
+                plcYData = ConvertDecimalToBinary(data);
             }
             else
             {
@@ -275,6 +287,7 @@ public class MxComponent : MonoBehaviour
         if (isConnected)
         {
             int iRet = _mxComp.WriteDeviceBlock(startDevice, blockNum, ref data[0]);
+            input = String.Join(",", data); // { 335, 55 } -> "335,55"
 
             if (iRet == 0)
             {
