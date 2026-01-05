@@ -1,51 +1,189 @@
-# MyFirstUnityProject - 로봇 제어 및 네트워킹 데모
+# MyFirstUnityProject - Unity 종합 학습 프로젝트
 
 ## 개요
-이 프로젝트는 유니티(Unity) 환경에서 산업용 로봇 제어 시스템 시뮬레이션, TCP/IP 네트워킹, 그리고 기본적인 게임 메카닉을 구현한 데모입니다. 유니티 내에서 하드웨어 제어 개념(PLC 시퀀스 등)을 통합하는 방법을 보여주는 예제 프로젝트입니다.
+이 프로젝트는 **Unity 엔진**을 활용한 종합 학습 및 데모 프로젝트입니다. **산업 자동화(로봇/PLC)**, **게임 개발**, **네트워킹**, **Firebase 백엔드**, 그리고 다양한 **Unity 기능 학습**을 위한 예제들이 포함되어 있습니다.
 
-## 주요 기능
+---
 
-### 🤖 로봇 제어 시스템 (`RobotManager.cs`)
-산업용 로봇 작동을 시뮬레이션하는 포괄적인 시스템입니다:
-- **수동 제어 (Manual Control)**: UI를 통해 로봇의 End-Effector(말단 장치) 위치(X, Y, Z)와 회전을 정밀하게 제어할 수 있습니다.
-- **티칭 모드 (Teaching Mode)**: 일련의 동작(Step)을 기록하여 로봇에게 작업을 "가르치는" 기능입니다.
-  - 위치, 회전, 속도, 대기 시간(Interval), 흡착 툴(Suction) 상태를 저장합니다.
-- **시퀀스 실행 (Sequence Execution)**:
-  - **단일 실행 (Single Run)**: 기록된 단계를 한 번 실행합니다.
-  - **반복 실행 (Cycle Run)**: 기록된 단계를 계속해서 반복 실행합니다 (루프 모드).
-- **IK 통합 (IK Integration)**: 목표 위치에 따라 관절 각도를 계산하기 위해 역운동학(Inverse Kinematics)을 사용합니다.
+## 📁 프로젝트 구조
 
-### 🌐 네트워킹 (`TCPClient.cs`)
-다중 클라이언트 동기화를 위한 네트워킹 모듈입니다:
-- **TCP 클라이언트**: 지정된 TCP 서버 IP와 포트로 연결합니다.
-- **실시간 동기화**: 로컬 플레이어의 위치와 회전 데이터를 서버로 전송합니다.
-- **자동 IP 감지**: 로컬 머신의 IP 주소를 자동으로 가져와 표시합니다.
-- **연결 관리**: 연결/해제 기능 및 상태 피드백을 제공합니다.
+```
+Assets/
+├── Animations/          # 캐릭터 애니메이션 (Idle, Walk, Fireball 등)
+├── AnimeGirls/          # 애니메 스타일 캐릭터 모델 (BaseCharacter, Casual1)
+├── DownloadedAssets/    # 외부 에셋
+│   ├── Free Furniture Set/
+│   ├── Furniture_ges1/
+│   └── WorrcoArts/
+├── Firebase/            # Firebase SDK (Auth, Database)
+├── IK_toolkit/          # 역운동학(IK) 시스템
+│   ├── Models/          # UR_16e 로봇 모델
+│   └── Scripts/         # IK 계산 스크립트
+├── Materials/           # 머티리얼 및 물리 머티리얼
+├── Plugins/             # 네이티브 플러그인
+├── Prefabs/             # 프리팹
+│   ├── Bullet, Cube, Player, Player2
+│   ├── UR_16e Platform (산업용 로봇)
+│   └── 금속, 플라스틱 (MPS용 워크피스)
+├── Scenes/              # 씬 파일들 (26개 이상)
+├── Scripts/             # C# 스크립트
+│   └── MPSSimulator/    # MPS 시뮬레이션 전용 스크립트
+├── Settings/            # URP 렌더 파이프라인 설정
+├── Sounds/              # 오디오 파일 (BGM, SFX)
+├── StreamingAssets/     # 런타임 데이터
+└── TextMesh Pro/        # TMP 폰트 및 리소스
+```
 
-### 🛠️ 유틸리티 및 메카닉
-- **파일 관리**: 애플리케이션 데이터를 저장하고 불러오는 시스템 (`FileManager.cs`).
-- **기초 물리**: 핑퐁 운동이나 벡터 수학을 보여주는 오브젝트 이동 알고리즘 예제 (`CubeMove.cs`, `SphereMove.cs`).
-- **입력 시스템**: 유니티의 새로운 Input System 통합 (`InputSystem_Actions`).
+---
 
-## 주요 스크립트
-- **`RobotManager.cs`**: 로봇 시퀀싱, UI 상호작용, 단계별 실행 코루틴을 담당하는 핵심 로직입니다.
-- **`TCPClient.cs`**: 네트워크 소켓 연결, 데이터 인코딩/디코딩, 전송 루프를 처리합니다.
-- **`CubeMove.cs`**: 벡터 기반 이동 로직(Lerp/MoveTowards 등)을 보여줍니다.
+## 🎬 씬(Scene) 목록
 
-## 씬(Scene) 개요
-- **Scenes/Muliplayer.unity**: TCP 네트워킹 기능을 테스트하는 씬입니다.
-- **Scenes/FileSaveLoad.unity**: 파일 관리자(File Manager) 시스템을 위한 데모 씬입니다.
-- **Scenes/PhysicsSample**: 다양한 물리 및 이동 관련 예제들이 포함된 씬입니다.
-- **Scenes/SampleScene**: 기본 진입점 또는 메인 씬 (로봇 설정이 포함되어 있을 가능성이 높음)입니다.
+### 🏭 산업 자동화
+| 씬 이름 | 설명 |
+|---------|------|
+| **MPSSimulator.unity** | MPS 공정 시뮬레이션 (실린더, 컨베이어, 센서, PLC 연동) |
+| **MoveSequence.unity** | 로봇 모션 시퀀스 티칭 및 실행 |
+| **FloorPlan.unity** | 공장 레이아웃 시각화 |
 
-## 시작하기 (Getting Started)
-1. 유니티에서 프로젝트를 엽니다 (에셋 버전에 맞는 2021.3 이상 버전 권장).
-2. 로봇 제어 테스트:
-   - 로봇 설정이 있는 씬을 엽니다 (`SampleScene` 또는 `Scenes` 폴더 확인).
-   - 씬을 재생(Play)합니다.
-   - UI를 사용하여 로봇을 움직이거나 특정 좌표를 입력합니다.
-   - "Teach"를 클릭하여 지점을 저장한 후, "Start"를 클릭하여 시퀀스를 실행합니다.
-3. 네트워킹 테스트:
-   - TCP 서버가 실행 중인지 확인합니다 (이 프로젝트 외부의 별도 서버 프로그램 필요).
-   - `Muliplayer.unity` 씬을 엽니다.
-   - 서버 IP를 입력하고 연결(Connect)합니다.
+### 🔥 Firebase 연동
+| 씬 이름 | 설명 |
+|---------|------|
+| **FirebaseAuth.unity** | 이메일/비밀번호 인증 (회원가입, 로그인) |
+| **FirebaseDB.unity** | 실시간 데이터베이스 CRUD 테스트 |
+
+### 🌐 네트워킹
+| 씬 이름 | 설명 |
+|---------|------|
+| **Muliplayer.unity** | TCP 소켓 기반 다중 클라이언트 동기화 |
+| **MultiThreading.unity** | 멀티스레딩 테스트 |
+
+### 🎮 게임 & 인터랙션
+| 씬 이름 | 설명 |
+|---------|------|
+| **PlayerMove.unity** | 3인칭 캐릭터 이동 |
+| **PlayerMove+Gun.unity** | 캐릭터 이동 + 총기 발사 |
+| **UnityChan_FSM.unity** | FSM 기반 AI 캐릭터 동작 |
+| **Minigame.unity** | 미니게임 예제 |
+| **Pinball.unity** | 핀볼 게임 |
+| **NavigationStudy.unity** | NavMesh 네비게이션 |
+
+### 📚 학습용 예제
+| 씬 이름 | 설명 |
+|---------|------|
+| **PhysicsSample.unity** | 물리 엔진 학습 (충돌, Rigidbody) |
+| **RotationStudy.unity** | 회전 보간 학습 (Lerp, Slerp, Torque) |
+| **CubeMove.unity** | 벡터 이동 알고리즘 (MoveTowards, Lerp) |
+| **Clock.unity** | 시계 구현 (시/분/초 바늘 회전) |
+| **UIStudy.unity** | UI 시스템 학습 |
+| **AudioStudy.unity** | 오디오 시스템 학습 |
+| **ParticleStudy.unity** | 파티클 시스템 학습 |
+| **FileSaveLoad.unity** | 로컬 파일 입출력 |
+| **Progress.unity** | 진행률 관리 시스템 |
+
+---
+
+## 🛠️ 주요 스크립트
+
+### 로봇 & 자동화
+| 스크립트 | 설명 |
+|----------|------|
+| `RobotManager.cs` | 로봇 수동 제어, 티칭, 시퀀스 실행 |
+| `IK_toolkit.cs` | 역운동학 계산 (관절 각도 산출) |
+| `MoveSequence.cs` | 다관절 로봇 순차 모션 제어 |
+
+### MPS 시뮬레이션 (`Scripts/MPSSimulator/`)
+| 스크립트 | 설명 |
+|----------|------|
+| `PLCManager.cs` | PLC 입출력 신호 중계 (Master/Slave 모드) |
+| `MxComponent.cs` | 미쓰비시 PLC 통신 (MX Component) |
+| `Cylinder.cs` | 공압 실린더 시뮬레이션 |
+| `Conveyor.cs` | 컨베이어 벨트 동작 |
+| `Sensor.cs` | 근접/금속 센서 |
+| `TowerLamp.cs` | 3색 신호등 |
+| `Loader.cs` | 자재 공급 장치 |
+
+### Firebase
+| 스크립트 | 설명 |
+|----------|------|
+| `FirebaseAuthManager.cs` | 이메일 인증, 로그인/로그아웃 |
+| `FirebaseDBManager.cs` | 실시간 DB 읽기/쓰기 |
+| `DBManager.cs` | 로컬 DB 관리 유틸리티 |
+
+### 게임 메카닉
+| 스크립트 | 설명 |
+|----------|------|
+| `TPSPlayerController.cs` | 3인칭 캐릭터 컨트롤러 |
+| `PlayerMove.cs` | 기본 플레이어 이동 |
+| `Gun.cs` | 총기 발사 로직 |
+| `Bullet.cs` | 투사체 동작 |
+| `FSMCharacter.cs` | 유한 상태 머신 AI |
+| `ChaseTarget.cs` | 타겟 추적 AI |
+
+### 유틸리티
+| 스크립트 | 설명 |
+|----------|------|
+| `TCPClient.cs` | TCP 소켓 클라이언트 |
+| `FileManager.cs` | 파일 저장/불러오기 |
+| `AudioManager.cs` | 오디오 재생 관리 |
+| `GameManager.cs` | 게임 상태 관리 |
+| `UIManager.cs` | UI 이벤트 처리 |
+| `Clock.cs` | 시계 로직 |
+
+### 물리 & 수학 학습
+| 스크립트 | 설명 |
+|----------|------|
+| `CubeMove.cs` | 벡터 이동 예제 |
+| `SphereMove.cs` | 구체 물리 이동 |
+| `LerpRotation.cs` | Lerp 회전 보간 |
+| `SlerpRotation.cs` | Slerp 회전 보간 |
+| `TorqueRotation.cs` | 토크 기반 회전 |
+| `PhysicsStudy.cs` | 물리 학습 예제 |
+
+---
+
+## 🎨 에셋
+
+### 3D 모델
+- **Scara Robot** (`scara robot.fbx`) - 스카라 로봇 모델
+- **UR_16e** (`IK_toolkit/`) - Universal Robots 협동 로봇
+- **AnimeGirls** - 애니메 스타일 캐릭터
+- **가구 세트** (`DownloadedAssets/`) - 인테리어 에셋
+
+### 애니메이션
+- Standing Idle, Walking, Fireball, Opening 등 캐릭터 애니메이션
+
+### 오디오
+- `bgm.wav` - 배경음악
+- `punch1.wav` - 효과음
+
+---
+
+## 🚀 시작하기
+
+### 요구 사항
+- Unity 2021.3 LTS 이상
+- Universal Render Pipeline (URP)
+- Firebase SDK (인증/DB 기능 사용 시)
+- MX Component (PLC 연동 시, 미쓰비시 전용)
+
+### 실행 방법
+1. Unity Hub에서 프로젝트를 엽니다.
+2. 원하는 씬을 `Scenes/` 폴더에서 선택하여 엽니다.
+3. **Play** 버튼을 눌러 실행합니다.
+
+### 주요 테스트 시나리오
+
+| 목적 | 씬 |
+|------|-----|
+| 로봇 제어 | `MoveSequence.unity` |
+| MPS 시뮬레이션 | `MPSSimulator.unity` |
+| Firebase 인증 | `FirebaseAuth.unity` |
+| 게임 플레이 | `PlayerMove+Gun.unity` |
+| 물리 학습 | `PhysicsSample.unity` |
+
+---
+
+## 📝 참고사항
+- `google-services.json` 파일이 Firebase 연동에 필요합니다.
+- PLC 연동(MxComponent)은 Windows 환경에서만 동작합니다.
+- URP 설정은 `Settings/` 폴더에서 PC/Mobile별로 관리됩니다.
