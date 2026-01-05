@@ -1,4 +1,4 @@
-﻿#define SLAVE // MASTER / SLAVE
+﻿#define MASTER // MASTER / SLAVE
 
 using Firebase;
 using Firebase.Database;
@@ -67,7 +67,11 @@ public class DBManager : MonoBehaviour
             {
                 DataSnapshot data = task.Result;
 
-                MxComponent.instance.output = data.GetRawJsonValue(); // "565,56,32";
+                string json = data.GetRawJsonValue();
+
+                json = json.Replace("\"", "");
+
+                MxComponent.instance.output = json; // "565,56,32" -> 565,56,32;
             });
 
             yield return new WaitForSeconds(interval);

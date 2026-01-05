@@ -1,4 +1,4 @@
-﻿#define SLAVE // MASTER, SLAVE
+﻿#define MASTER // MASTER / SLAVE
 
 using UnityEngine;
 using ActUtlType64Lib;
@@ -27,12 +27,20 @@ public class MxComponent : MonoBehaviour
     public int[] plcXData = new int[1];               // PLCManager에서 전달받은 정보
     public string input;
     CancellationTokenSource cts = new CancellationTokenSource();    // 스레드 관리자!
+    public int blockNum = 1;
 
     private void Awake()
     {
         // 싱글턴 객체 할당
         if (instance == null)
             instance = this;
+
+        // 출력디바이스블록의 개수에 따라 초기화
+        for(int i = 0; i < blockNum; i++)
+        {
+            bool[] temp = new bool[16];
+            plcYData.Add(temp);
+        }
     }
 
     /// <summary>
@@ -79,8 +87,15 @@ public class MxComponent : MonoBehaviour
         {
             // output -> int[]  -> plcYData[,]
             // "255,66,888" -> { 255, 66, 888 }
+            if (output == "")
+            {
+                yield return new WaitForSeconds(interval);
+
+                continue;
+            }
+
             string[] strArr = output.Split(',');
-            int[] tempData = Array.ConvertAll(strArr, s => int.Parse(s.Trim()));
+            int[] tempData = Array.ConvertAll(strArr, int.Parse);
             plcYData = ConvertDecimalToBinary(tempData); // 0000111111110010
 
             yield return new WaitForSeconds(interval);
