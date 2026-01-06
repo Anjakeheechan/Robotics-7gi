@@ -5,6 +5,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEditor.VersionControl;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Firebase Auth를 사용하여 이메일 회원가입, 인증(verification), 로그인을 한다.
@@ -157,5 +158,49 @@ public class FirebaseAuthManager : MonoBehaviour
     public void OnExitBtnClkEvent()
     {
         Application.Quit();
+    }
+
+    // 로그인 OK 버튼: 해당 user가 verification 되어있는가 isVerified가 true이면 로그인 가능
+    public async void OnLoginBtnClkEvent()
+    {
+        string email = loginEmailInput.text;
+        string password = loginPWInput.text;
+
+        if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
+        {
+            Debug.LogWarning("이메일과 비밀번호를 입력해 주세요.");
+            return;
+        }
+
+        await auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWith(task =>
+        {
+            if(task.IsCanceled)
+            {
+                Debug.LogWarning(task.Exception);
+                return;
+            }
+            else if(task.IsFaulted)
+            {
+                Debug.LogWarning(task.Exception);
+                return;
+            }
+            else if(task.IsCompleted)
+            {
+                user = task.Result.User;
+            }
+        });
+
+        if(!user.IsEmailVerified)
+        {
+            StartCoroutine(CoTurnOnPopupPanel($"The email is not verified. check your {user.Email}"));
+
+            auth.SignOut();
+
+            return;
+        }
+
+        Debug.Log($"로그인 성공! {user.Email}");
+
+        SceneManager.LoadScene("Progress"); // 진행중 표시 씬
     }
 }

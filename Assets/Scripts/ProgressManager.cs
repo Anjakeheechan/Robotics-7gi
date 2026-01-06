@@ -12,6 +12,7 @@ public class ProgressManager : MonoBehaviour
 {
     [SerializeField] TMP_Text text;
     [SerializeField] Image image;
+    [SerializeField] string nextSceneName = "MPSSimulator";
 
     void Start()
     {
@@ -20,7 +21,7 @@ public class ProgressManager : MonoBehaviour
 
     IEnumerator CoStartProgressBar()
     {
-        AsyncOperation operation = SceneManager.LoadSceneAsync("CubeMove");
+        AsyncOperation operation = SceneManager.LoadSceneAsync(nextSceneName);
         operation.allowSceneActivation = false;     // 버튼을 누르기 전에는 활성화 되지 않도록.
 
         while (!operation.isDone)
